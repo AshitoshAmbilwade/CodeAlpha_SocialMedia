@@ -1,0 +1,3 @@
+LMZa67bUkrxC0yAD
+
+mongodb+srv://codingchamp1289:LMZa67bUkrxC0yAD@cluster0.enj1o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
