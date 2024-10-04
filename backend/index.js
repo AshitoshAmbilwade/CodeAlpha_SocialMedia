@@ -7,11 +7,11 @@ import userRoute from "./routes/user.route.js";
 import postRoute from "./routes/post.route.js";
 import storyRoute from "./routes/story.route.js";
 import reelsRoute from "./routes/reels.route.js";
-import messageRoute from "./routes/message.route.js"
-
+import messageRoute from "./routes/message.route.js";
+import { app, server } from "./socket/socket.js";
 dotenv.config({});
 const PORT = process.env.PORT || 3000;
-const app = express();
+//const app = express();
 
 //middlewares
 app.use(express.json());
@@ -45,7 +45,8 @@ app.get("/", (_, res) => {
 });
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectDB();
     console.log(`The server is running on port ${PORT}`);
 });
+

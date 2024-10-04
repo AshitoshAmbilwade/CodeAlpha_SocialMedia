@@ -7,6 +7,6 @@ import { getMessages, sendMessage } from "../controllers/message_controllers.js"
 const router = express.Router();
 
 router.route('/send/:id').post(isAuthenticated, sendMessage);
-router.route('/conversation/:id').get(isAuthenticated, getMessages);
+router.route('/all/:id').get(isAuthenticated, getMessages);
 
 export default router;

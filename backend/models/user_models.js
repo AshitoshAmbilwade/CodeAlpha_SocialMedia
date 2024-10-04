@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     profilePicture: { type: String, default: '' },
     bio: { type: String, default: '' },
-    gender: { type: String, enum: ['male', 'female', 'trans'] },
+    gender: { type: String, enum: ['male', 'female'] },
     isPrivate: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     status: { type: String, enum: ['active', 'suspended', 'deactivated'], default: 'active' },
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     storyHighlights: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
     blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Added blocked users
     reportedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Added reported users

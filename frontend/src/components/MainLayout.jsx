@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import LeftSidebar from "./LeftSidebar";
 
-function MainLayout() {
+const MainLayout = () => {
   return (
-    <div>MainLayout</div>
-  )
-}
+    
+      <div className="h-[100%] w-screen box-border">
+        <LeftSidebar />
+        <div>
+          <Outlet />
+        </div>
+      </div>
+  );
+};
 
-export default MainLayout
+export default MainLayout;

@@ -22,22 +22,22 @@ router.route("/addpost").post(isAuthenticated, upload.single('image'), addNewPos
 router.route("/all").get(isAuthenticated, getAllPost);
 
 // Get user-specific posts
-router.route("/user").get(isAuthenticated, getUserPost);
+router.route("/userpost/all").get(isAuthenticated, getUserPost);
 
 // Like a post
-router.route("/like/:id").post(isAuthenticated, likePost);
+router.route("/:id/like").get(isAuthenticated, likePost);
 
 // Dislike a post
-router.route("/dislike/:id").post(isAuthenticated, disLikePost);
+router.route("/:id/dislike").get(isAuthenticated, disLikePost);
 
 // Save/Unsave a post
-router.route("/save/:id").post(isAuthenticated, savePost);
+router.route("/:id/save").get(isAuthenticated, savePost);
 
 // Add a comment to a post
-router.route("/comment/:id").post(isAuthenticated, addCount);
+router.route("/:id/comment").post(isAuthenticated, addCount);
 
 // Get comments for a post
-router.route("/comments/:id").get(isAuthenticated, getComment);
+router.route("/:id/comment/all").get(isAuthenticated, getComment);
 
 // Delete a post
 router.route("/delete/:id").delete(isAuthenticated, deletePost);
