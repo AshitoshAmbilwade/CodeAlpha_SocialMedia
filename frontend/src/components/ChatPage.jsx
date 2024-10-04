@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { setSelectedUser } from '@/redux/authSlice';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { MessageCircleCode, Send } from 'lucide-react'; // Send Icon
+import { MessageCircleCode, Send, Smile } from 'lucide-react'; // Icons
 import Messages from './Messages';
 import axios from 'axios';
 import { setMessages } from '@/redux/chatSlice';
+import EmojiPicker from 'emoji-picker-react'; // Updated emoji picker library
 
 const ChatPage = () => {
     const [textMessage, setTextMessage] = useState("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false); // Emoji picker toggle
     const { user, suggestedUsers, selectedUser } = useSelector(store => store.auth);
     const { onlineUsers, messages } = useSelector(store => store.chat);
     const dispatch = useDispatch();
@@ -19,24 +21,29 @@ const ChatPage = () => {
         try {
             const res = await axios.post(`http://localhost:8000/api/v1/message/send/${receiverId}`, { textMessage }, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json' // Updated to handle text only
                 },
                 withCredentials: true
             });
             if (res.data.success) {
                 dispatch(setMessages([...messages, res.data.newMessage]));
-                setTextMessage("");
+                setTextMessage(""); // Clear the message
             }
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+
+    // Emoji click handler
+    const addEmoji = (emojiObject) => {
+        setTextMessage(prevMessage => prevMessage + emojiObject.emoji);
+    };
 
     useEffect(() => {
         return () => {
             dispatch(setSelectedUser(null));
-        }
-    },[]);
+        };
+    }, []);
 
     return (
         <div className='flex h-screen ml-[16%] bg-gray-50'>
@@ -50,6 +57,7 @@ const ChatPage = () => {
                             const isOnline = onlineUsers.includes(suggestedUser?._id);
                             return (
                                 <div 
+                                    key={suggestedUser._id} // Added key prop
                                     onClick={() => dispatch(setSelectedUser(suggestedUser))} 
                                     className='flex items-center gap-3 p-3 hover:bg-gray-100 cursor-pointer rounded-lg transition-all'
                                 >
@@ -93,6 +101,20 @@ const ChatPage = () => {
 
                         {/* Message Input */}
                         <div className='flex items-center p-4 bg-gray-50 border-t border-gray-300'>
+                            {/* Emoji picker button */}
+                            <Button 
+                                onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
+                                className='mr-2 bg-transparent hover:bg-blue-50 focus:outline-none'
+                            >
+                                <Smile className="w-6 h-6 text-gray-500" />
+                            </Button>
+
+                            {showEmojiPicker && (
+                                <div className='absolute bottom-16'>
+                                    <EmojiPicker onEmojiClick={addEmoji} />
+                                </div>
+                            )}
+
                             <Input 
                                 value={textMessage} 
                                 onChange={(e) => setTextMessage(e.target.value)} 
@@ -100,8 +122,10 @@ const ChatPage = () => {
                                 className='flex-1 px-4 py-2 rounded-full shadow-sm text-sm border border-gray-300 focus:border-blue-400' 
                                 placeholder="Type a message..." 
                             />
+
                             <Button 
                                 onClick={() => sendMessageHandler(selectedUser?._id)} 
+                                disabled={!textMessage} // Disable if no text
                                 className='ml-2 bg-transparent hover:bg-blue-50 focus:outline-none'
                             >
                                 <Send className="w-6 h-6 text-blue-500" />
@@ -117,7 +141,7 @@ const ChatPage = () => {
                 )
             }
         </div>
-    )
-}
+    );
+};
 
 export default ChatPage;

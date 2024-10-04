@@ -10,6 +10,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { setPosts, setSelectedPost } from '@/redux/postSlice'
 import { Badge } from './ui/badge'
+import { Link } from 'react-router-dom'
 
 const Post = ({ post }) => {
     const [text, setText] = useState("");
@@ -110,6 +111,7 @@ const Post = ({ post }) => {
     return (
         <div className='my-8 w-full max-w-sm mx-auto'>
             <div className='flex items-center justify-between'>
+                <Link to={ `profile/${post.author._id}`}>
                 <div className='flex items-center gap-2'>
                     <Avatar>
                         <AvatarImage src={post.author?.profilePicture} alt="post_image" />
@@ -120,6 +122,8 @@ const Post = ({ post }) => {
                        {user?._id === post.author._id &&  <Badge variant="secondary">Author</Badge>}
                     </div>
                 </div>
+                </Link>
+               
                 <Dialog>
                     <DialogTrigger asChild>
                         <MoreHorizontal className='cursor-pointer' />

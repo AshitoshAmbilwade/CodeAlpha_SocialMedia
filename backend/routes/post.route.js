@@ -10,7 +10,8 @@ import {
   savePost,
   addCount,
   getComment,
-  deletePost
+  deletePost,
+  
 } from "../controllers/post_controllers.js";
 
 const router = express.Router();
@@ -32,6 +33,8 @@ router.route("/:id/dislike").get(isAuthenticated, disLikePost);
 
 // Save/Unsave a post
 router.route("/:id/save").get(isAuthenticated, savePost);
+
+
 
 // Add a comment to a post
 router.route("/:id/comment").post(isAuthenticated, addCount);
